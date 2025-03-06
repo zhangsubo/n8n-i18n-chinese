@@ -50,33 +50,39 @@ jobs:
       if: steps.check_tag.outputs.exists == 'true'
       run: |
         echo "Tags exist, stopping workflow."
-        exit 1
 
     - uses: actions/setup-node@v4.2.0
+      if: steps.check_tag.outputs.exists == 'false'
       with:
         node-version: 20.x
 
     - name: Setup corepack and pnpm
+      if: steps.check_tag.outputs.exists == 'false'
       run: |
         npm i -g corepack@0.31
         corepack enable
 
     - run: pnpm install --frozen-lockfile
+      if: steps.check_tag.outputs.exists == 'false'
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
 
     - name: Move i18n zh-CN
+      if: steps.check_tag.outputs.exists == 'false'
       run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
 
     - name: Pnpm build editor-ui
+      if: steps.check_tag.outputs.exists == 'false'
       run: pnpm build
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui
 
     - name: 打包 dist 产物
+      if: steps.check_tag.outputs.exists == 'false'
       run: |
         tar -czvf editor-ui.tar.gz dist
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui
 
     - name: 创建 git tag
+      if: steps.check_tag.outputs.exists == 'false'
       run: |
         TAG="n8n@${{ steps.get_version.outputs.version }}"
         git config --global user.name "github-actions"
@@ -86,6 +92,7 @@ jobs:
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
 
     - name: 创建 GitHub Release
+      if: steps.check_tag.outputs.exists == 'false'
       id: create_release
       uses: softprops/action-gh-release@v2
       with:
