@@ -4,9 +4,10 @@
 	"workspaceFolder": "/workspaces",
 	"features": {
 		"ghcr.io/devcontainers/features/node:1": {
-			"version": "18"
+			"version": "18",
+			"nodeGypDependencies": false
 		}
 	},
-	"postCreateCommand": "git clone https://github.com/n8n-io/n8n && mv /workspaces/n8n-i18n-chinese/zh-CN.json /workspaces/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales  && pnpm install",
-	"postAttachCommand": "pnpm build"
+	"postCreateCommand": "git clone https://github.com/n8n-io/n8n && mv /workspaces/n8n-i18n-chinese/zh-CN.json /workspaces/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales  && cd /workspaces/n8n && pnpm install",
+	"postAttachCommand": "cd /workspaces/n8n && pnpm build"
 }
