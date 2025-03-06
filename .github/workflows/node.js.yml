@@ -29,6 +29,7 @@ jobs:
         cache: 'npm'
     - name: Use pnpm
       uses: pnpm/action-setup@v4.1.0
-    - run: mv /workspaces/n8n-i18n-chinese/zh-CN.json /workspaces/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
-    - run: cd /workspaces/n8n && corepack prepare --activate && pnpm install
+    - name: Build i18n
+    - run: mv /home/runner/work/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
+    - run: cd /home/runner/work/n8n && corepack prepare --activate && pnpm install
     - run: corepack prepare --activate && pnpm build
