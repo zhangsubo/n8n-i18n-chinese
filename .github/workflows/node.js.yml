@@ -25,6 +25,15 @@ jobs:
       uses: actions/checkout@v4
       with: 
         path: ./n8n-i18n-chinese
+
+    - uses: actions/setup-node@v4.2.0
+      with:
+        node-version: 20.x
+
+    - name: Setup corepack and pnpm
+      run: |
+        npm i -g corepack@0.31
+        corepack enable
     # - name: Use Node.js ${{ matrix.node-version }}
     #   uses: actions/setup-node@v4
     #   with:
@@ -35,8 +44,8 @@ jobs:
     - name: Move i18n zh-CN
       run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
     - name: Pnpm install
-      run: corepack prepare --activate && npm install -g pnpm && pnpm install
+      run: npm install -g pnpm && pnpm install
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
     - name: Pnpm build
-      run: corepack prepare --activate && pnpm build
+      run: pnpm build
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
