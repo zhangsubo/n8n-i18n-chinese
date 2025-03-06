@@ -28,8 +28,11 @@ jobs:
     #     node-version: ${{ matrix.node-version }}
     #     cache: 'pnpm'
     - name: Move i18n zh-CN
-      run: mv /home/runner/work/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
+      run: mv ./zh-CN.json ../n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
+      working-directory: ./n8n-i18n-chinese
     - name: Pnpm install
-      run: cd /home/runner/work/n8n && corepack prepare --activate && npm install -g pnpm && pnpm install
+      run: corepack prepare --activate && npm install -g pnpm && pnpm install
+      working-directory: ./n8n
     - name: Pnpm build
       run: corepack prepare --activate && pnpm build
+      working-directory: ./n8n
