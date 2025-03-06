@@ -77,6 +77,15 @@ jobs:
         tar -czvf dist.tar.gz dist
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui
 
+    - name: 创建 git tag
+      run: |
+        TAG="n8n@${{ steps.get_version.outputs.version }}"
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git tag $TAG
+        git push origin $TAG
+      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
+
     - name: 创建 GitHub Release
       id: create_release
       uses: softprops/action-gh-release@v2
