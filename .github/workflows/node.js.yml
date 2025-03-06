@@ -21,10 +21,40 @@ jobs:
       with: 
         repository: n8n-io/n8n
         path: ./n8n
+        
     - name: Checkout local
       uses: actions/checkout@v4
       with: 
         path: ./n8n-i18n-chinese
+        
+    - name: Fetch all tags
+      run: git fetch --tags
+      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
+
+    - name: Read version from package.json
+      id: get_version
+      run: |
+        VERSION=$(jq -r '.version' package.json)
+        echo "Version: $VERSION"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
+          
+    - name: Check if tag exists
+      id: check_tag
+      run: |
+        TAG="n8n@${{ steps.get_version.outputs.version }}"
+        echo "Checking for tag: $TAG"
+        if git rev-parse "$TAG" >/dev/null 2>&1; then
+          echo "exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Exit if tags exist
+      if: steps.check_tag.outputs.exists == 'true'
+      run: |
+        echo "Tags exist, stopping workflow."
+        exit 0
 
     - uses: actions/setup-node@v4.2.0
       with:
