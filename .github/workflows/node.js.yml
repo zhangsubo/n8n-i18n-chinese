@@ -34,18 +34,12 @@ jobs:
       run: |
         npm i -g corepack@0.31
         corepack enable
-    # - name: Use Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v4
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
-    #     cache: 'pnpm'
-    - name: Pnpm build
-      run: ls /home/runner/work
+
+    - run: pnpm install --frozen-lockfile
+    
     - name: Move i18n zh-CN
       run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
-    - name: Pnpm install
-      run: npm install -g pnpm && pnpm install
-      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
+
     - name: Pnpm build
       run: pnpm build
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
