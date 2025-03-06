@@ -1,0 +1,12 @@
+{
+	"name": "n8n",
+	"service": "n8n",
+	"workspaceFolder": "/workspaces",
+	"mounts": [
+		"type=bind,source=${localWorkspaceFolder},target=/workspaces,consistency=cached",
+		"type=bind,source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,consistency=cached",
+		"type=bind,source=${localEnv:HOME}/.n8n,target=/home/node/.n8n,consistency=cached"
+	],
+	"postCreateCommand": "git clone https://github.com/n8n-io/n8n && mv /workspaces/zh-CN.json /workspaces/packages/frontend/editor-ui/src/plugins/i18n/locales  && pnpm install",
+	"postAttachCommand": "pnpm build"
+}
