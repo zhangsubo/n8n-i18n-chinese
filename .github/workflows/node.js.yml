@@ -19,7 +19,7 @@ jobs:
     - name: Checkout n8n
       uses: actions/checkout@v4
       with: 
-        repository: https://github.com/n8n-io/n8n
+        repository: n8n-io/n8n
     - name: Checkout local
       uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
