@@ -22,11 +22,11 @@ jobs:
         repository: n8n-io/n8n
     - name: Checkout local
       uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
+    #     cache: 'pnpm'
     - name: Move i18n zh-CN
       run: mv /home/runner/work/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
     - name: Pnpm install
