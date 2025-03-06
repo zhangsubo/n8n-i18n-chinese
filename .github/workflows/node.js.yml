@@ -22,11 +22,11 @@ jobs:
         repository: n8n-io/n8n
     - name: Checkout local
       uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
+    #     cache: 'pnpm'
     - name: Use pnpm
       uses: pnpm/action-setup@v4.1.0
     - name: Move i18n zh-CN
