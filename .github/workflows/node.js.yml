@@ -40,7 +40,7 @@ jobs:
       run: |
         TAG="n8n@${{ steps.get_version.outputs.version }}"
         echo "Checking for remote tag: $TAG"
-        if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
+        if git ls-remote --tags origin | grep "refs/tags/$TAG$"; then
           echo "exists=true" >> $GITHUB_OUTPUT
         else
           echo "exists=false" >> $GITHUB_OUTPUT
