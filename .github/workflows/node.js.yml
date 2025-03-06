@@ -73,7 +73,7 @@ jobs:
 
     - name: 打包 dist 产物
       run: |
-        tar -czvf dist.tar.gz dist
+        tar -czvf editor-ui.tar.gz dist
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui
 
     - name: 创建 git tag
@@ -95,7 +95,7 @@ jobs:
           自动发布的中文语言包版本。
         draft: false
         prerelease: false
-        files: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/dist.tar.gz
+        files: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/editor-ui.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
