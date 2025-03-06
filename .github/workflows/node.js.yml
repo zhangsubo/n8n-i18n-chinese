@@ -41,6 +41,6 @@ jobs:
     - name: Move i18n zh-CN
       run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
 
-    - name: Pnpm build
-      run: pnpm build
+    - name: Pnpm build frontend
+      run: pnpm build:frontend
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
