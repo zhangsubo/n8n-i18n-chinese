@@ -51,7 +51,7 @@ jobs:
       if: steps.check_tag.outputs.exists == 'true'
       run: |
         echo "Tags exist, stopping workflow."
-        exit 0
+        exit 1
 
     - uses: actions/setup-node@v4.2.0
       with:
