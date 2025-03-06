@@ -20,8 +20,11 @@ jobs:
       uses: actions/checkout@v4
       with: 
         repository: n8n-io/n8n
+        path: ./n8n
     - name: Checkout local
       uses: actions/checkout@v4
+      with: 
+        path: ./n8n-i18n-chinese
     # - name: Use Node.js ${{ matrix.node-version }}
     #   uses: actions/setup-node@v4
     #   with:
