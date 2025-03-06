@@ -27,6 +27,8 @@ jobs:
     #   with:
     #     node-version: ${{ matrix.node-version }}
     #     cache: 'pnpm'
+    - name: Pnpm build
+      run: pwd | cat
     - name: Move i18n zh-CN
       run: mv ./n8n-i18n-chinese/zh-CN.json ./n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
     - name: Pnpm install
