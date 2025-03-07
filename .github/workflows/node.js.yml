@@ -69,7 +69,12 @@ jobs:
     - name: Move i18n zh-CN
       if: steps.check_tag.outputs.exists == 'false'
       run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
-
+    
+    - name: Patch editor-ui
+      if: steps.check_tag.outputs.exists == 'false'
+      run: git apply /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/fix_editor-ui.patch
+      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
+      
     - name: Pnpm build editor-ui
       if: steps.check_tag.outputs.exists == 'false'
       run: pnpm build
