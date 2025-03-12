@@ -75,25 +75,44 @@ jobs:
       if: steps.check_tag.outputs.exists == 'false'
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
 
-    - name: Move i18n zh-CN
+    - name: check n8n editor-ui is old
+      id: editorui_dir
+      run: |
+        DIR_PATH="/home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui"       # 你要检查的目录
+        FALLBACK_DIR="/home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/editor-ui" # 备用目录
+
+        if [ -d "$DIR_PATH" ]; then
+          echo "flag=new" >> $GITHUB_OUTPUT
+          echo "dir=$DIR_PATH" >> $GITHUB_OUTPUT
+        else
+          echo "flag=old" >> $GITHUB_OUTPUT
+          echo "dir=$FALLBACK_DIR" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Move editor-ui i18n zh-CN
       if: steps.check_tag.outputs.exists == 'false'
-      run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/src/plugins/i18n/locales
+      run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json ${steps.editorui_dir.outputs.dir}/src/plugins/i18n/locales
     
-    - name: Patch editor-ui
-      if: steps.check_tag.outputs.exists == 'false'
+    - name: Patch New editor-ui
+      if: steps.editorui_dir.outputs.flag == 'new' && steps.check_tag.outputs.exists == 'false'
       run: git apply /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/fix_editor-ui.patch
+      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
+
+    - name: Patch Old editor-ui
+      if: steps.editorui_dir.outputs.flag == 'old' && steps.check_tag.outputs.exists == 'false'
+      run: git apply /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/fix_editor-ui.old.patch
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
       
     - name: Pnpm build editor-ui
       if: steps.check_tag.outputs.exists == 'false'
       run: pnpm build
-      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui
+      working-directory: ${steps.editorui_dir.outputs.dir}
 
     - name: 打包 dist 产物
       if: steps.check_tag.outputs.exists == 'false'
       run: |
         tar -czvf editor-ui.tar.gz dist
-      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui
+      working-directory: ${steps.editorui_dir.outputs.dir}
 
     - name: 创建 git tag
       if: steps.check_tag.outputs.exists == 'false'
@@ -116,7 +135,7 @@ jobs:
           自动发布的中文语言包版本。
         draft: false
         prerelease: false
-        files: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n/packages/frontend/editor-ui/editor-ui.tar.gz
+        files: ${steps.editorui_dir.outputs.dir}/editor-ui.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
