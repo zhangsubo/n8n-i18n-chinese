@@ -1,5 +1,7 @@
-# 汉化教程
+# 语言教程
 ## 设置环境变量
+> 参考：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language
+
 N8N_DEFAULT_LOCALE=zh-CN
 
 ## 替换editor-ui包
