@@ -9,12 +9,14 @@ N8N_DEFAULT_LOCALE=zh-CN
 
 
 ## 完整测试docker命令
+```shell
 docker run -it --rm --name n8ntest \
 -p 15678:5678 \
 -v /n8n/n8n-editor-ui/dist:/usr/local/lib/node_modules/n8n/node_modules/n8n-editor-ui/dist \
 -e N8N_DEFAULT_LOCALE=zh-CN \
 -e N8N_SECURE_COOKIE=false \
 n8nio/n8n
+```
 
 
 
