@@ -91,7 +91,7 @@ jobs:
 
     - name: Move editor-ui i18n zh-CN
       if: steps.check_tag.outputs.exists == 'false'
-      run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json ${steps.editorui_dir.outputs.dir}/src/plugins/i18n/locales
+      run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json "${{ steps.editorui_dir.outputs.dir }}/src/plugins/i18n/locales"
     
     - name: Patch New editor-ui
       if: steps.editorui_dir.outputs.flag == 'new' && steps.check_tag.outputs.exists == 'false'
