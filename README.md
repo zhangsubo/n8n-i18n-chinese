@@ -27,3 +27,6 @@ n8nio/n8n
 
 手动添加 zh-CN.json 到 editor-ui i18n里面，然后重新编译
 环境里面设置语言即可正常使用中文
+
+# 添加其他语言包
+请PR 语言文件到 languages 目录下，github action会在下一个n8n版本自动打包
