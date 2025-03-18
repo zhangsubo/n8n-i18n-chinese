@@ -7,7 +7,7 @@ on:
   schedule:
   - cron: "0 * * * *"
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,10 +21,10 @@ jobs:
         LATEST_VERSION=$(curl -s https://api.github.com/repos/n8n-io/n8n/releases/latest | jq -r '.tag_name')
         echo "Latest release tag: $LATEST_VERSION"
         echo "latest=$LATEST_VERSION" >> $GITHUB_OUTPUT
-          
+
     - name: Checkout local
       uses: actions/checkout@v4
-      with: 
+      with:
         path: ./n8n-i18n-chinese
 
     # - name: Read version from package.json
@@ -34,7 +34,7 @@ jobs:
     #     echo "Version: $VERSION"
     #     echo "version=$VERSION" >> $GITHUB_OUTPUT
     #   working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
-          
+
     - name: Check if tag exists
       id: check_tag
       run: |
@@ -55,7 +55,7 @@ jobs:
     - name: Checkout n8n
       if: steps.check_tag.outputs.exists == 'false'
       uses: actions/checkout@v4
-      with: 
+      with:
         repository: n8n-io/n8n
         ref: ${{ steps.latest_release.outputs.latest }}
         path: ./n8n
@@ -89,10 +89,10 @@ jobs:
           echo "dir=$FALLBACK_DIR" >> $GITHUB_OUTPUT
         fi
 
-    - name: Move editor-ui i18n zh-CN
+    - name: Move editor-ui i18n language
       if: steps.check_tag.outputs.exists == 'false'
-      run: mv /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/zh-CN.json "${{ steps.editorui_dir.outputs.dir }}/src/plugins/i18n/locales"
-    
+      run:     cp -r /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/languages/* "${{ steps.editorui_dir.outputs.dir }}/src/plugins/i18n/locales/"
+
     - name: Patch New editor-ui
       if: steps.editorui_dir.outputs.flag == 'new' && steps.check_tag.outputs.exists == 'false'
       run: git apply /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/fix_editor-ui.patch
@@ -102,7 +102,7 @@ jobs:
       if: steps.editorui_dir.outputs.flag == 'old' && steps.check_tag.outputs.exists == 'false'
       run: git apply /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/fix_editor-ui.old.patch
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
-      
+
     - name: Pnpm build editor-ui
       if: steps.check_tag.outputs.exists == 'false'
       run: pnpm build
