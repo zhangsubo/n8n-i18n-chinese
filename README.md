@@ -20,6 +20,8 @@ docker run -it --rm --name n8ntest \
 n8nio/n8n
 ```
 
+## docker-compose.yml
+请切换到对应版本的tag后，在执行
 
 
 # 原理
