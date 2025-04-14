@@ -117,7 +117,7 @@ jobs:
     - name: 拷贝 dist 到项目目录
       if: steps.check_tag.outputs.exists == 'false'
       run: |
-        cp -r ${{ steps.editorui_dir.outputs.dir }}/dist /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/dist
+        cp -r ${{ steps.editorui_dir.outputs.dir }}/dist /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/editor-ui-dist
 
     - name: 创建 git tag
       if: steps.check_tag.outputs.exists == 'false'
