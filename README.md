@@ -24,7 +24,7 @@ n8nio/n8n
 请切换到对应版本的tag后，在执行
 ```shell
 # 拉取代码
-git pull other-blowsnow/n8n-i18n-chinese
+git clone other-blowsnow/n8n-i18n-chinese
 # 注意自行修改当前版本，修改为 n8n最新/指定版本即可
 # 只支持 1.86.1+以上使用该方法
 git checkout 1.86.1
