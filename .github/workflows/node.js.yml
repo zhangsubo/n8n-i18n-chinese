@@ -125,7 +125,7 @@ jobs:
         TAG="${{ steps.latest_release.outputs.latest }}"
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-        git add dist
+        git add editor-ui-dist
         git commit -m "chore: add built editor-ui dist for ${{ steps.latest_release.outputs.latest }}"
         git tag $TAG
         git push origin $TAG
