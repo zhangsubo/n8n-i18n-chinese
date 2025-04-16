@@ -78,6 +78,10 @@ jobs:
     - name: Do Translate
       if: steps.check_tag.outputs.exists == 'false'
       run: pnpm run i18n:translate
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
+        OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
 
     - run: pnpm install --frozen-lockfile
