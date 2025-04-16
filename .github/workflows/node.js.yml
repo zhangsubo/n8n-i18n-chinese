@@ -14,6 +14,10 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
     steps:
     - name: Get latest GitHub release version
       id: latest_release
@@ -78,10 +82,6 @@ jobs:
     - name: Do Translate
       if: steps.check_tag.outputs.exists == 'false'
       run: node script/translate.js
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
-        OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
 
     - run: pnpm install --frozen-lockfile
