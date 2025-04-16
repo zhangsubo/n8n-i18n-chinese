@@ -109,7 +109,7 @@ function collectMessages(oldSourceLanguages, newSourceLanguages, targetLanguages
 
 async function run(){
     const oldEnLanguages = require("./en.json");
-    const newEnLanguages = await fetch("https://raw.githubusercontent.com/n8n-io/n8n/master/packages/frontend/editor-ui/src/plugins/i18n/locales/en.json")
+    const newEnLanguages = await fetch("https://ghfast.top/https://raw.githubusercontent.com/n8n-io/n8n/master/packages/frontend/editor-ui/src/plugins/i18n/locales/en.json")
         .then(res => res.json())
 
     for (const targetLanguage of targetLanguages) {
