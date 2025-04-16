@@ -1,6 +1,12 @@
 require('dotenv').config()
 const fs = require('fs');
 
+
+if (!process.env.OPENAI_API_KEY){
+    console.error("请设置环境变量 OPENAI_API_KEY");
+    process.exit(1);
+}
+
 const targetLanguages = [
     {
         "name": "zh-CN",
@@ -83,10 +89,10 @@ function collectMessages(oldSourceLanguages, newSourceLanguages, targetLanguages
     for (const key in newSourceLanguages) {
         let currentKey = parentKey ? parentKey + "##" + key : key;
         if (newSourceLanguages[key] instanceof Object) {
-            collectMessages(oldSourceLanguages[key], newSourceLanguages[key], targetLanguages[key], currentKey, waitTranslateList);
+            collectMessages(oldSourceLanguages[key]  || {}, newSourceLanguages[key], targetLanguages[key] || {}, currentKey, waitTranslateList);
         } else {
-            if (targetLanguages === undefined || targetLanguages[key] === undefined
-                || oldSourceLanguages === undefined || oldSourceLanguages[key] === undefined
+            if (targetLanguages[key] === undefined
+                || oldSourceLanguages[key] === undefined
                 || oldSourceLanguages[key] !== newSourceLanguages[key]) {
                 waitTranslateList.push({
                     key: currentKey,
@@ -100,7 +106,7 @@ function collectMessages(oldSourceLanguages, newSourceLanguages, targetLanguages
 
 async function run(){
     const oldEnLanguages = require("./en.json");
-    const newEnLanguages = await fetch("https://ghfast.top/https://raw.githubusercontent.com/n8n-io/n8n/master/packages/frontend/editor-ui/src/plugins/i18n/locales/en.json")
+    const newEnLanguages = await fetch("https://raw.githubusercontent.com/n8n-io/n8n/master/packages/frontend/editor-ui/src/plugins/i18n/locales/en.json")
         .then(res => res.json())
 
     for (const targetLanguage of targetLanguages) {
