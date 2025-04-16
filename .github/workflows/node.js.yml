@@ -114,12 +114,28 @@ jobs:
         tar -czvf editor-ui.tar.gz dist
       working-directory: ${{ steps.editorui_dir.outputs.dir }}
 
+    - name: 拷贝 dist 到项目目录
+      if: steps.check_tag.outputs.exists == 'false'
+      run: |
+        cp -r ${{ steps.editorui_dir.outputs.dir }}/dist /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/editor-ui-dist
+
+    - name: Update docker-compose.yml version
+      if: steps.check_tag.outputs.exists == 'false'
+      run: |
+        RAW_TAG="${{ steps.latest_release.outputs.latest }}"
+        VERSION="${RAW_TAG#n8n@}"  # 去掉前缀 n8n@
+        echo "Replacing {version} with $VERSION in docker-compose.yml"
+        sed -i "s/{version}/$VERSION/g" /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese/docker-compose.yml
+
     - name: 创建 git tag
       if: steps.check_tag.outputs.exists == 'false'
       run: |
         TAG="${{ steps.latest_release.outputs.latest }}"
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
+        git add editor-ui-dist
+        git add docker-compose.yml
+        git commit -m "chore: add built editor-ui dist for ${{ steps.latest_release.outputs.latest }}"
         git tag $TAG
         git push origin $TAG
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
