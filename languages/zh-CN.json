@@ -969,7 +969,7 @@
     "genericHelpers.minShort": "分",
     "genericHelpers.sec": "秒",
     "genericHelpers.secShort": "秒",
-    "genericHelpers.millis": "女士",
+    "genericHelpers.millis": "毫秒",
     "readOnly.showMessage.executions.message": "执行是只读的。在“<b>工作流</b>”选项卡中进行更改。",
     "readOnly.showMessage.executions.title": "无法编辑执行",
     "readOnlyEnv.showMessage.executions.message": "执行是只读的。",
