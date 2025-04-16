@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI
+name: package editor-ui languages
 
 on:
   schedule:
@@ -14,11 +14,6 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
-    environment: test
-    env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
-      OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
     steps:
     - name: Get latest GitHub release version
       id: latest_release
@@ -75,20 +70,6 @@ jobs:
       run: |
         npm i -g corepack@0.31
         corepack enable
-
-#    自动翻译
-#    - run: pnpm install
-#      if: steps.check_tag.outputs.exists == 'false'
-#      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
-#
-#    - name: Do Translate
-#      if: steps.check_tag.outputs.exists == 'false'
-#      run: node script/translate.js
-#      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
-#      env:
-#        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-#        OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
-#        OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
 
     - run: pnpm install --frozen-lockfile
       if: steps.check_tag.outputs.exists == 'false'
@@ -152,10 +133,6 @@ jobs:
         TAG="${{ steps.latest_release.outputs.latest }}"
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-#        git add script/en.json
-#        git add languages/*
-#        git commit -m "translate"
-#        git push
         git add editor-ui-dist
         git add docker-compose.yml
         git commit -m "chore: add built editor-ui dist for ${{ steps.latest_release.outputs.latest }}"
