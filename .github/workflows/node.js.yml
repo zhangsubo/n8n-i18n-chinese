@@ -73,6 +73,15 @@ jobs:
 
     - run: pnpm install --frozen-lockfile
       if: steps.check_tag.outputs.exists == 'false'
+      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
+
+    - name: Do Translate
+      if: steps.check_tag.outputs.exists == 'false'
+      run: pnpm run i18n:translate
+      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
+
+    - run: pnpm install --frozen-lockfile
+      if: steps.check_tag.outputs.exists == 'false'
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n
 
     - name: check n8n editor-ui is old
@@ -133,6 +142,10 @@ jobs:
         TAG="${{ steps.latest_release.outputs.latest }}"
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
+        git add script/en.json
+        git add languages/*
+        git commit -m "translate"
+        git push
         git add editor-ui-dist
         git add docker-compose.yml
         git commit -m "chore: add built editor-ui dist for ${{ steps.latest_release.outputs.latest }}"

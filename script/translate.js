@@ -1,5 +1,4 @@
 require('dotenv').config()
-const enLanguages = require("./en.json");
 const fs = require('fs');
 
 const targetLanguages = [
@@ -80,16 +79,18 @@ async function translate(waitTranslateList, targetObject, targetLanguage) {
 }
 
 // 收集需要翻译的key和message
-function collectMessages(sourceLanguages, targetLanguages, parentKey = '', waitTranslateList=[]){
-    for (const key in sourceLanguages) {
+function collectMessages(oldSourceLanguages, newSourceLanguages, targetLanguages, parentKey = '', waitTranslateList=[]){
+    for (const key in newSourceLanguages) {
         let currentKey = parentKey ? parentKey + "##" + key : key;
-        if (sourceLanguages[key] instanceof Object) {
-            collectMessages(sourceLanguages[key], targetLanguages[key], currentKey, waitTranslateList);
+        if (newSourceLanguages[key] instanceof Object) {
+            collectMessages(oldSourceLanguages[key], newSourceLanguages[key], targetLanguages[key], currentKey, waitTranslateList);
         } else {
-            if (targetLanguages[key] === undefined) {
+            if (targetLanguages === undefined || targetLanguages[key] === undefined
+                || oldSourceLanguages === undefined || oldSourceLanguages[key] === undefined
+                || oldSourceLanguages[key] !== newSourceLanguages[key]) {
                 waitTranslateList.push({
                     key: currentKey,
-                    message: sourceLanguages[key]
+                    message: newSourceLanguages[key]
                 })
             }
         }
@@ -98,6 +99,10 @@ function collectMessages(sourceLanguages, targetLanguages, parentKey = '', waitT
 
 
 async function run(){
+    const oldEnLanguages = require("./en.json");
+    const newEnLanguages = await fetch("https://ghfast.top/https://raw.githubusercontent.com/n8n-io/n8n/master/packages/frontend/editor-ui/src/plugins/i18n/locales/en.json")
+        .then(res => res.json())
+
     for (const targetLanguage of targetLanguages) {
         let targetLanguages = {};
         let fileName = `../languages/${targetLanguage.name}.json`;
@@ -105,11 +110,11 @@ async function run(){
             targetLanguages = JSON.parse(fs.readFileSync(fileName, "utf8"))
         }
         const waitTranslateList = []
-        collectMessages(enLanguages, targetLanguages, "", waitTranslateList)
+        collectMessages(oldEnLanguages, newEnLanguages , targetLanguages, "", waitTranslateList)
         await translate(waitTranslateList, targetLanguages, targetLanguage.label);
         // 最后使用 enLanguages的key  排序 targetLanguages key
         const sortedTargetLanguages = {};
-        for (const key in enLanguages) {
+        for (const key in newEnLanguages) {
             if (targetLanguages[key] !== undefined) {
                 sortedTargetLanguages[key] = targetLanguages[key];
             }
@@ -117,6 +122,7 @@ async function run(){
         // 将翻译后的语言写入文件
         fs.writeFileSync(fileName, JSON.stringify(sortedTargetLanguages, null, 4));
     }
+    fs.writeFileSync("./en.json", JSON.stringify(newEnLanguages, null, 4));
 }
 
 run();
