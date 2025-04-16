@@ -83,6 +83,10 @@ jobs:
       if: steps.check_tag.outputs.exists == 'false'
       run: node script/translate.js
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
+        OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
 
     - run: pnpm install --frozen-lockfile
       if: steps.check_tag.outputs.exists == 'false'
