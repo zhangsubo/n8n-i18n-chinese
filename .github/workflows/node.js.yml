@@ -71,7 +71,7 @@ jobs:
         npm i -g corepack@0.31
         corepack enable
 
-    - run: pnpm install --frozen-lockfile
+    - run: pnpm install
       if: steps.check_tag.outputs.exists == 'false'
       working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
 
