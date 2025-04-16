@@ -76,18 +76,19 @@ jobs:
         npm i -g corepack@0.31
         corepack enable
 
-    - run: pnpm install
-      if: steps.check_tag.outputs.exists == 'false'
-      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
-
-    - name: Do Translate
-      if: steps.check_tag.outputs.exists == 'false'
-      run: node script/translate.js
-      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
-        OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+#    自动翻译
+#    - run: pnpm install
+#      if: steps.check_tag.outputs.exists == 'false'
+#      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
+#
+#    - name: Do Translate
+#      if: steps.check_tag.outputs.exists == 'false'
+#      run: node script/translate.js
+#      working-directory: /home/runner/work/n8n-i18n-chinese/n8n-i18n-chinese/n8n-i18n-chinese
+#      env:
+#        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+#        OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
+#        OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
 
     - run: pnpm install --frozen-lockfile
       if: steps.check_tag.outputs.exists == 'false'

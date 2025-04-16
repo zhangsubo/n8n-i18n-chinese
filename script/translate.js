@@ -73,8 +73,11 @@ async function translate(waitTranslateList, targetObject, targetLanguage) {
             console.log("剩余翻译数量", waitTranslateList.length - doNum);
         }))
 
-        if (promises.length > 5){
+        if (promises.length > 3){
             await Promise.all(promises);
+            // 睡眠1s
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
             promises = [];
         }
     }
