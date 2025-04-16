@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
+    environment: test
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_API_BASE: ${{ vars.OPENAI_API_BASE }}
