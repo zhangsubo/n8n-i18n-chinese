@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "i18n:translate": "node ./scripts/translate.js"
+    "i18n:translate": "node ./script/translate.js"
   },
   "repository": {
     "type": "git",
